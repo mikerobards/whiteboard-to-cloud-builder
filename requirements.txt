@@ -1,0 +1,15 @@
+# Whiteboard-to-cloud builder — Python dependencies
+# Spark pipeline only needs: openai, python-dotenv, Pillow, truststore
+# (truststore is for the work laptop's TLS-intercepting proxy)
+# torch / torchvision / transformers / numpy are only for the
+# dropped SAM experiment (sam_test.py) — skip them if you only
+# want to run the Spark box/graph steps.
+
+Pillow
+numpy
+openai
+python-dotenv
+torch
+torchvision
+transformers
+truststore
