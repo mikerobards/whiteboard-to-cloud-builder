@@ -3,7 +3,6 @@ import os
 import ssl
 import json
 import base64
-from typing import Any, cast
 from PIL import Image
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -27,11 +26,12 @@ _tls = truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 _http = httpx.Client(verify=_tls)
 client = OpenAI(base_url="https://api.meta.ai/v1",
                 api_key=os.environ["META_API_KEY"],
-                http_client=cast(Any, _http))
+                http_client=_http)
 
 prompt = """Return JSON only, no other text.
 For every rectangular or oval shape in this architecture diagram, including outer containers, return:
-- label: the main title text inside the shape only, ignore any other text, notes, or subtitles inside the same shape
+- label: the main title text inside the shape only
+- detail: any other text inside the shape (subtitles, notes, e.g. an engine type like Postgres, or a version) — or null if there is none; never put this text in label
 - type: component, container, external, or connection
 - parent: the label of the shape that directly contains this one, or null if no shape contains it — do not invent a container
 - box: [x_min, y_min, x_max, y_max] in 0-1000 normalized coordinates, origin top-left

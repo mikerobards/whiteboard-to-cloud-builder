@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 990" width="1320" height="990" style="background:white;font-family:sans-serif">
+  <rect x="0" y="0" width="1320" height="990" fill="white"/>
+  <text x="660" y="48" text-anchor="middle" font-size="28" fill="#5F6368" font-family="sans-serif">Whiteboard-to-Cloud - Generated Architecture</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5F6368"/>
+    </marker>
+  </defs>
+
+  <!-- Container: VPC Network -->
+  <rect x="574.2" y="232.65" width="719.4" height="405.9" rx="16" ry="16" fill="#E8F0FE" stroke="#4285F4" stroke-width="2.5"/>
+  <text x="590" y="262" font-size="20" fill="#4285F4" font-weight="600">VPC Network</text>
+
+  <!-- Component: Cloud Storage Bucket -->
+  <rect x="303.6" y="712.8" width="574.2" height="193.05" rx="12" ry="12" fill="white" stroke="#202124" stroke-width="2"/>
+  <text x="590.7" y="809.325" text-anchor="middle" dominant-baseline="middle" font-size="20" fill="#202124">Cloud Storage Bucket</text>
+
+  <!-- Component: Cloud Run Service -->
+  <rect x="66" y="346.5" width="349.8" height="133.65" rx="12" ry="12" fill="white" stroke="#202124" stroke-width="2"/>
+  <text x="240.9" y="413.325" text-anchor="middle" dominant-baseline="middle" font-size="20" fill="#202124">Cloud Run Service</text>
+
+  <!-- Component: Firewall Rule -->
+  <rect x="653.4" y="356.4" width="580.8" height="74.25" rx="12" ry="12" fill="white" stroke="#202124" stroke-width="2"/>
+  <text x="943.8" y="383.5" text-anchor="middle" font-size="20" fill="#202124">Firewall Rule</text>
+  <text x="943.8" y="407.5" text-anchor="middle" font-size="20" fill="#202124"> Allow TCP:8080</text>
+
+  <!-- Component: Compute Engine VM -->
+  <rect x="673.2" y="465.3" width="574.2" height="133.65" rx="12" ry="12" fill="white" stroke="#202124" stroke-width="2"/>
+  <text x="960.3" y="532.125" text-anchor="middle" dominant-baseline="middle" font-size="20" fill="#202124">Compute Engine VM</text>
+
+  <!-- External: USERS (HTTPS) -->
+  <ellipse cx="201.3" cy="215.325" rx="174.9" ry="47.025" fill="white" stroke="#202124" stroke-width="2"/>
+  <text x="201.3" y="215.325" text-anchor="middle" dominant-baseline="middle" font-size="20" fill="#202124">USERS (HTTPS)</text>
+
+  <!-- Arrows -->
+  <line x1="210.69" y1="262.29" x2="227.54" y2="346.5" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="299.92" y1="480.15" x2="505.44" y2="712.8" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="415.8" y1="408.4" x2="653.4" y2="401.71" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="948.22" y1="430.65" x2="952.35" y2="465.3" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="871.21" y1="598.95" x2="719.4" y2="712.8" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Connection labels (mechanism) -->
+  <text x="534.6" y="395" text-anchor="middle" font-size="14" fill="#34A853" font-weight="600" style="paint-order:stroke;stroke:white;stroke-width:4px;stroke-linejoin:round">Direct VPC Egress</text>
+  <text x="795.3" y="648" text-anchor="middle" font-size="14" fill="#34A853" font-weight="600" style="paint-order:stroke;stroke:white;stroke-width:4px;stroke-linejoin:round">Private Google Access</text>
+</svg>

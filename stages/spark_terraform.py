@@ -23,12 +23,12 @@ _tls = truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 _http = httpx.Client(verify=_tls)
 client = OpenAI(base_url="https://api.meta.ai/v1",
                 api_key=os.environ["META_API_KEY"],
-                http_client=_http)  # type: ignore[arg-type]  # Truststore-backed httpx client
+                http_client=_http)
 
 prompt = """Return Terraform HCL only: no markdown fences, no explanations, no commentary.
 Generate a complete root-module main.tf for this GCP architecture.
 
-Detected shapes (boxes.json):
+Detected shapes (boxes.json) — shapes may carry a detail field with subtitle text; use it for specs like database engines:
 """ + json.dumps(boxes) + """
 
 Detected arrows (edges.json):
@@ -46,6 +46,13 @@ Component to resource mapping (fixed, use exactly these):
 Rules:
 - Provider "google". Variables: project_id (no default), region (default "us-east1").
 - One file, no modules, no count/for_each. Valid HCL that a terraform init could consume.
+- Boot images: use a current Debian family (debian-cloud/debian-12). Never use retired families such as debian-11.
+- Databases: if a database shape's detail names an engine (e.g. Postgres, MySQL), set database_version to match (POSTGRES_15, MYSQL_8_0); default to POSTGRES_15 when no engine is given.
+- This is a demo/test file: set deletion_protection = false on Cloud Run v2 services and SQL instances so teardown is clean.
+- Service account account_id values must be 6-30 characters long (e.g. backend-vm-sa, cloud-run-sa) — shorter IDs are rejected by GCP.
+- Coverage check before finalizing: every component in boxes.json must have at least one corresponding resource in the output. A load balancer is never a single resource — expand it into a network endpoint group, backend service, URL map, proxy, and forwarding rule.
+- Serverless network endpoint groups (network_endpoint_type = "SERVERLESS"): configure only the cloud_run block — never add a network_endpoint block with instance/port.
+- Cloud Run v2 ingress must be one of INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, or INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER (or omitted) — never invent values. Prefer INTERNAL_LOAD_BALANCER when a load balancer fronts the service.
 - Do not invent components, networks, firewall rules, or IAM beyond what the shapes and edges describe.
 """
 

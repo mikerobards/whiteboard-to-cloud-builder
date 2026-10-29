@@ -1,6 +1,8 @@
 .env
 .venv/
 env/
+.terraform/
 __pycache__/
 *.pyc
 .DS_Store
+v2-outputs/
