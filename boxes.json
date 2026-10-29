@@ -1,10 +1,10 @@
 [
   {"label": "USERS (HTTPS)", "type": "external", "parent": null, "box": [22, 172, 278, 262]},
-  {"label": "Cloud Run Service", "type": "component", "parent": null, "box": [48, 348, 312, 482]},
-  {"label": "Direct VPC Egress", "type": "connection", "parent": null, "box": [332, 388, 365, 425]},
+  {"label": "Cloud Run Service", "type": "component", "parent": null, "box": [48, 345, 312, 475]},
+  {"label": "Direct VPC Egress", "type": "connection", "parent": null, "box": [332, 392, 362, 422]},
   {"label": "VPC Network", "type": "container", "parent": null, "box": [442, 232, 982, 642]},
-  {"label": "Firewall Rule: Allow TCP:8080", "type": "component", "parent": "VPC Network", "box": [492, 358, 938, 432]},
-  {"label": "Compute Engine VM", "type": "component", "parent": "VPC Network", "box": [508, 468, 938, 602]},
-  {"label": "Private Google Access", "type": "connection", "parent": null, "box": [672, 682, 718, 732]},
-  {"label": "Cloud Storage Bucket", "type": "component", "parent": null, "box": [228, 718, 658, 912]}
+  {"label": "Firewall Rule: Allow TCP:8080", "type": "component", "parent": "VPC Network", "box": [495, 355, 915, 432]},
+  {"label": "Compute Engine VM", "type": "component", "parent": "VPC Network", "box": [512, 472, 955, 595]},
+  {"label": "Private Google Access", "type": "connection", "parent": null, "box": [672, 682, 712, 732]},
+  {"label": "Cloud Storage Bucket", "type": "component", "parent": null, "box": [232, 715, 672, 912]}
 ]

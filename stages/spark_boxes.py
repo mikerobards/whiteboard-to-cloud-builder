@@ -3,6 +3,7 @@ import os
 import ssl
 import json
 import base64
+from typing import Any, cast
 from PIL import Image
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -26,7 +27,7 @@ _tls = truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 _http = httpx.Client(verify=_tls)
 client = OpenAI(base_url="https://api.meta.ai/v1",
                 api_key=os.environ["META_API_KEY"],
-                http_client=_http)
+                http_client=cast(Any, _http))
 
 prompt = """Return JSON only, no other text.
 For every rectangular or oval shape in this architecture diagram, including outer containers, return:

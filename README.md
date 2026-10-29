@@ -31,10 +31,10 @@ python pipeline.py ./images/GCP-1.jpg
 Or run stages individually:
 
 ```
-python spark_boxes.py ./images/GCP-1.jpg
-python spark_graph.py ./images/GCP-1.jpg boxes.json
-python spark_terraform.py boxes.json edges.json
-python spark_diagram.py boxes.json edges.json
+python stages/spark_boxes.py ./images/GCP-1.jpg
+python stages/spark_graph.py ./images/GCP-1.jpg boxes.json
+python stages/spark_terraform.py boxes.json edges.json
+python stages/spark_diagram.py boxes.json edges.json
 ```
 
 Each stage validates its output and retries up to three times. The pipeline prints total token usage and an approximate dollar cost at the end.
@@ -45,8 +45,9 @@ Roughly $0.04 per full run at current Meta API pricing. The entire demo costs le
 
 ## Repo layout
 
-- `spark_boxes.py`, `spark_graph.py`, `spark_terraform.py`, `spark_diagram.py` — the four pipeline stages
 - `pipeline.py` — end-to-end runner with retries, validation, and cost reporting
+- `stages/` — the four pipeline stages (`spark_boxes.py`, `spark_graph.py`, `spark_terraform.py`, `spark_diagram.py`)
+- `experiments/` — the dropped SAM spike (`sam_test.py`) and the box-overlay debug script, kept as documentation rather than hidden
 - `images/` — sample sketches
 - `boxes.json`, `edges.json`, `main.tf`, `diagram.svg` — sample outputs from the reference sketch
 - `requirements.txt`, `.env.example`
