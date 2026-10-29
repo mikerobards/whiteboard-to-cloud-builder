@@ -12,16 +12,6 @@ provider "google" {
   region  = var.region
 }
 
-resource "google_service_account" "vm_sa" {
-  account_id   = "backend-vm-sa"
-  display_name = "Backend VM service account"
-}
-
-resource "google_service_account" "cloud_run_sa" {
-  account_id   = "cloud-run-sa"
-  display_name = "Cloud Run service account"
-}
-
 resource "google_compute_network" "vpc_network" {
   name                    = "vpc-network"
   auto_create_subnetworks = false
@@ -29,30 +19,41 @@ resource "google_compute_network" "vpc_network" {
 
 resource "google_compute_subnetwork" "private_subnet" {
   name                     = "private-subnet"
-  ip_cidr_range            = "10.10.0.0/24"
+  ip_cidr_range            = "10.0.0.0/24"
   region                   = var.region
   network                  = google_compute_network.vpc_network.id
   private_ip_google_access = true
 }
 
+resource "google_service_account" "vm_sa" {
+  account_id   = "backend-vm-sa"
+  display_name = "Backend VM Service Account"
+}
+
+resource "google_service_account" "cloud_run_sa" {
+  account_id   = "cloud-run-sa"
+  display_name = "Cloud Run Service Service Account"
+}
+
 resource "google_compute_firewall" "allow_tcp_8080" {
-  name          = "allow-tcp-8080"
-  network       = google_compute_network.vpc_network.id
-  direction     = "INGRESS"
-  source_ranges = [google_compute_subnetwork.private_subnet.ip_cidr_range]
-  target_tags   = ["backend-vm"]
+  name    = "allow-tcp-8080"
+  network = google_compute_network.vpc_network.id
 
   allow {
     protocol = "tcp"
     ports    = ["8080"]
   }
+
+  source_ranges = [google_compute_subnetwork.private_subnet.ip_cidr_range]
+  target_tags   = ["backend-vm"]
 }
 
 resource "google_compute_instance" "vm" {
   name         = "backend-vm"
   machine_type = "e2-medium"
   zone         = "${var.region}-b"
-  tags         = ["backend-vm"]
+
+  tags = ["backend-vm"]
 
   boot_disk {
     initialize_params {
@@ -71,27 +72,24 @@ resource "google_compute_instance" "vm" {
 }
 
 resource "google_storage_bucket" "bucket" {
-  name                        = "${var.project_id}-assets-bucket"
-  location                    = var.region
+  name     = "${var.project_id}-files-static-assets"
+  location = var.region
   uniform_bucket_level_access = true
-  force_destroy               = true
+  force_destroy = true
 }
 
-resource "google_cloud_run_v2_service" "frontend" {
+resource "google_cloud_run_v2_service" "cloud_run_service" {
   name     = "frontend-service"
   location = var.region
-  ingress  = "INGRESS_TRAFFIC_ALL"
 
   template {
     service_account = google_service_account.cloud_run_sa.email
-
     containers {
       image = "us-docker.pkg.dev/cloudrun/container/hello"
       ports {
         container_port = 8080
       }
     }
-
     vpc_access {
       network_interfaces {
         network    = google_compute_network.vpc_network.id

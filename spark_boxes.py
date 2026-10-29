@@ -1,10 +1,13 @@
 import sys
 import os
+import ssl
 import json
 import base64
 from PIL import Image
 from openai import OpenAI
 from dotenv import load_dotenv
+import httpx
+import truststore
 load_dotenv()
 
 
@@ -18,8 +21,12 @@ print(f"image size: {w}x{h}")
 with open(IMAGE_PATH, "rb") as f:
     b64 = base64.b64encode(f.read()).decode()
 
+# Work-laptop TLS: the corporate proxy's CA lives in the Windows cert store.
+_tls = truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+_http = httpx.Client(verify=_tls)
 client = OpenAI(base_url="https://api.meta.ai/v1",
-                api_key=os.environ["META_API_KEY"])
+                api_key=os.environ["META_API_KEY"],
+                http_client=_http)
 
 prompt = """Return JSON only, no other text.
 For every rectangular or oval shape in this architecture diagram, including outer containers, return:

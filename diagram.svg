@@ -1,51 +1,65 @@
-<svg viewBox="0 0 1320 990" width="1320" height="990" xmlns="http://www.w3.org/2000/svg">
-<rect x="0" y="0" width="1320" height="990" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="990" viewBox="0 0 1320 990" role="img">
+<rect width="1320" height="990" fill="#FFFFFF"/>
 <defs>
-<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-<path d="M 0 0 L 10 5 L 0 10 z" fill="#5F6368"/>
-</marker>
+  <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#5F6368"/>
+  </marker>
+  <style>
+    .label { font-family: sans-serif; font-size: 20px; fill: #202124; }
+    .label-small { font-family: sans-serif; font-size: 14px; fill: #202124; font-weight: 600; }
+    .container-label { font-family: sans-serif; font-size: 18px; fill: #1A56C4; font-weight: 600; }
+    .title { font-family: sans-serif; font-size: 28px; fill: #5F6368; font-weight: 600; }
+  </style>
 </defs>
-<text x="660" y="48" text-anchor="middle" font-family="sans-serif" font-size="28" fill="#5F6368">Whiteboard-to-Cloud - Generated Architecture</text>
 
-<!-- Container: VPC Network -->
-<rect x="583.44" y="219.78" width="712.8" height="415.8" rx="16" ry="16" fill="#E8F0FE" stroke="#4285F4" stroke-width="2"/>
-<text x="603.44" y="248.78" font-family="sans-serif" font-size="20" font-weight="600" fill="#202124">VPC Network</text>
+<text x="660" y="62" text-anchor="middle" class="title">Whiteboard-to-Cloud - Generated Architecture</text>
 
-<!-- Component: Firewall Rule -->
-<rect x="653.4" y="348.48" width="580.8" height="69.3" rx="8" ry="8" fill="white" stroke="#202124" stroke-width="2"/>
-<!-- Component: Compute Engine VM -->
-<rect x="675.84" y="467.28" width="584.76" height="128.7" rx="8" ry="8" fill="white" stroke="#202124" stroke-width="2"/>
-<!-- Component: Cloud Run Service -->
-<rect x="63.36" y="346.5" width="348.48" height="126.72" rx="8" ry="8" fill="white" stroke="#202124" stroke-width="2"/>
-<!-- Component: Cloud Storage Bucket -->
-<rect x="306.24" y="730.62" width="580.8" height="172.26" rx="8" ry="8" fill="white" stroke="#202124" stroke-width="2"/>
-<!-- External: USERS (HTTPS) -->
-<ellipse cx="195.36" cy="212.85" rx="171.6" ry="46.53" fill="white" stroke="#202124" stroke-width="2"/>
+<!-- VPC Network Container -->
+<rect x="583.44" y="229.68" width="712.8" height="405.9" rx="16" ry="16" fill="#E8F0FE" stroke="#4285F4" stroke-width="2"/>
+<text x="603.44" y="258.68" class="container-label">VPC Network</text>
+
+<!-- Cloud Storage Bucket -->
+<rect x="300.96" y="710.82" width="567.6" height="192.06" rx="12" ry="12" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
+<text x="584.76" y="806.85" text-anchor="middle" dominant-baseline="middle" class="label">Cloud Storage Bucket</text>
+
+<!-- Cloud Run Service -->
+<rect x="63.36" y="344.52" width="348.48" height="132.66" rx="12" ry="12" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
+<text x="237.6" y="410.85" text-anchor="middle" dominant-baseline="middle" class="label">Cloud Run Service</text>
+
+<!-- Firewall Rule: Allow TCP:8080 -->
+<rect x="649.44" y="354.42" width="588.72" height="73.26" rx="12" ry="12" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
+<text x="943.8" y="383.05" text-anchor="middle" class="label">Firewall Rule:</text>
+<text x="943.8" y="407.05" text-anchor="middle" class="label">Allow TCP:8080</text>
+
+<!-- Compute Engine VM -->
+<rect x="670.56" y="463.32" width="567.6" height="132.66" rx="12" ry="12" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
+<text x="954.36" y="529.65" text-anchor="middle" dominant-baseline="middle" class="label">Compute Engine VM</text>
+
+<!-- USERS (HTTPS) External Ellipse -->
+<ellipse cx="198" cy="214.83" rx="168.96" ry="44.55" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
+<text x="198" y="214.83" text-anchor="middle" dominant-baseline="middle" class="label">USERS (HTTPS)</text>
 
 <!-- Arrows -->
-<line x1="195.36" y1="259.38" x2="237.6" y2="346.5" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
-<line x1="411.84" y1="409.86" x2="653.4" y2="383.13" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
-<line x1="943.8" y1="417.78" x2="968.22" y2="467.28" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
-<line x1="293.51" y1="473.22" x2="520.64" y2="730.62" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
-<line x1="884.36" y1="595.98" x2="708.9" y2="730.62" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
+<!-- USERS -> Cloud Run Service -->
+<line x1="198" y1="259.38" x2="237.6" y2="344.52" stroke="#5F6368" stroke-width="2" marker-end="url(#arrowhead)"/>
+<!-- Cloud Run Service -> Cloud Storage Bucket -->
+<line x1="295.75" y1="477.18" x2="500.56" y2="710.82" stroke="#5F6368" stroke-width="2" marker-end="url(#arrowhead)"/>
+<!-- Cloud Run Service -> Firewall Rule -->
+<line x1="411.84" y1="405.97" x2="649.44" y2="399.3" stroke="#4285F4" stroke-width="2" marker-end="url(#arrowhead)"/>
+<!-- Firewall Rule -> Compute Engine VM -->
+<line x1="946.59" y1="427.68" x2="949.31" y2="463.32" stroke="#5F6368" stroke-width="2" marker-end="url(#arrowhead)"/>
+<!-- Compute Engine VM -> Cloud Storage Bucket -->
+<line x1="865.91" y1="595.98" x2="712.76" y2="710.82" stroke="#34A853" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-<!-- Connection labels (mechanism) -->
-<g font-family="sans-serif" font-size="14" fill="#202124">
-<rect x="462.62" y="382.5" width="140" height="20" fill="white" opacity="0.9"/>
-<text x="532.62" y="396.5" text-anchor="middle" dominant-baseline="middle">Direct VPC Egress</text>
-<rect x="706.63" y="649.3" width="180" height="20" fill="white" opacity="0.9"/>
-<text x="796.63" y="663.3" text-anchor="middle" dominant-baseline="middle">Private Google Access</text>
+<!-- Mechanism Labels at midpoints -->
+<!-- Direct VPC Egress midpoint of Cloud Run -> Firewall -->
+<g>
+  <rect x="455.64" y="387.63" width="150" height="22" rx="4" fill="#FFFFFF" opacity="0.9"/>
+  <text x="530.64" y="402.63" text-anchor="middle" class="label-small">Direct VPC Egress</text>
 </g>
-
-<!-- Labels centered -->
-<g font-family="sans-serif" font-size="20" fill="#202124" text-anchor="middle">
-<text x="195.36" y="212.85" dominant-baseline="middle">USERS (HTTPS)</text>
-<text x="237.6" y="409.86" dominant-baseline="middle">Cloud Run Service</text>
-<text x="943.8" y="383.13" dominant-baseline="middle">
-<tspan x="943.8" dy="-0.6em">Firewall Rule</tspan>
-<tspan x="943.8" dy="1.2em">Allow TCP:8080</tspan>
-</text>
-<text x="968.22" y="531.63" dominant-baseline="middle">Compute Engine VM</text>
-<text x="596.64" y="816.75" dominant-baseline="middle">Cloud Storage Bucket</text>
+<!-- Private Google Access midpoint of Compute VM -> Storage -->
+<g>
+  <rect x="704.33" y="638.4" width="170" height="22" rx="4" fill="#FFFFFF" opacity="0.9"/>
+  <text x="789.33" y="653.4" text-anchor="middle" class="label-small">Private Google Access</text>
 </g>
 </svg>
