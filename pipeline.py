@@ -16,13 +16,13 @@ IN_PRICE, OUT_PRICE = 1.25, 4.25
 
 STAGES = [
     # name, command, output file, check
-    ("boxes",     [PYBIN, "spark_boxes.py", PHOTO],
-     "boxes.json",  "json"),
-    ("graph",     [PYBIN, "spark_graph.py",
+    ("boxes",     [PYBIN, "stages/spark_boxes.py",
+     PHOTO],               "boxes.json",  "json"),
+    ("graph",     [PYBIN, "stages/spark_graph.py",
      PHOTO, "boxes.json"], "edges.json",  "json"),
-    ("terraform", [PYBIN, "spark_terraform.py",
+    ("terraform", [PYBIN, "stages/spark_terraform.py",
      "boxes.json", "edges.json"], "main.tf", "hcl"),
-    ("diagram",   [PYBIN, "spark_diagram.py",
+    ("diagram",   [PYBIN, "stages/spark_diagram.py",
      "boxes.json", "edges.json"],   "diagram.svg", "svg"),
 ]
 
