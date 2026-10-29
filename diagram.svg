@@ -1,75 +1,207 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 990" width="1320" height="990">
-<rect x="0" y="0" width="1320" height="990" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="990" viewBox="0 0 1320 990">
+<rect x="0" y="0" width="1320" height="990" fill="white"/>
 <defs>
 <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
 <path d="M 0 0 L 10 5 L 0 10 z" fill="#5F6368"/>
 </marker>
 </defs>
-<text x="660" y="48" text-anchor="middle" font-family="sans-serif" font-size="28" fill="#5F6368">Whiteboard-to-Cloud - Generated Architecture</text>
+<text x="660" y="42" font-family="sans-serif" font-size="28" fill="#5F6368" text-anchor="middle" font-weight="600">Whiteboard-to-Cloud - Generated Architecture</text>
 
-<!-- VPC Network container -->
-<rect x="732.6" y="94.05" width="561" height="613.8" rx="16" ry="16" fill="#E8F0FE" stroke="#4285F4" stroke-width="2"/>
-<text x="750" y="122" font-family="sans-serif" font-size="18" font-weight="600" fill="#4285F4">VPC Network</text>
+<!-- Containers -->
+<g id="container-cloud-vpc">
+<rect x="413.16" y="87.12" width="600.6" height="714.78" rx="14" ry="14" fill="#E8F0FE" stroke="#4285F4" stroke-width="2"/>
+<text x="425.16" y="108.12" font-family="sans-serif" font-size="14" font-weight="700" fill="#202124">Cloud Environment (VPC)</text>
+</g>
+<g id="container-app-subnet">
+<rect x="422.4" y="140.58" width="567.6" height="210.87" rx="12" ry="12" fill="#E8F0FE" stroke="#4285F4" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="434.4" y="158.58" font-family="sans-serif" font-size="13" font-weight="600" fill="#202124">Application Subnet</text>
+</g>
+<g id="container-async">
+<rect x="422.4" y="356.4" width="574.2" height="430.65" rx="12" ry="12" fill="#E8F0FE" stroke="#4285F4" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="434.4" y="374.4" font-family="sans-serif" font-size="13" font-weight="600" fill="#202124">Asynchronous Processing</text>
+</g>
+<g id="container-managed">
+<rect x="1102.2" y="87.12" width="212.52" height="348.48" rx="14" ry="14" fill="#E8F0FE" stroke="#4285F4" stroke-width="2"/>
+<text x="1114.2" y="108.12" font-family="sans-serif" font-size="13" font-weight="700" fill="#202124">Managed Data Services</text>
+</g>
+<g id="container-external-int">
+<rect x="10.56" y="816.75" width="966.24" height="158.4" rx="14" ry="14" fill="#E8F0FE" stroke="#4285F4" stroke-width="2"/>
+<text x="22.56" y="837.75" font-family="sans-serif" font-size="13" font-weight="700" fill="#202124">External Integrations</text>
+</g>
+<g id="container-notes">
+<rect x="982.08" y="821.7" width="332.64" height="153.45" rx="14" ry="14" fill="#E8F0FE" stroke="#4285F4" stroke-width="2"/>
+<text x="994.08" y="842.7" font-family="sans-serif" font-size="13" font-weight="700" fill="#202124">Diagram Notes</text>
+<text x="994.08" y="860" font-family="sans-serif" font-size="9.5" fill="#5F6368">
+<tspan x="994.08" dy="0">All component names are generic and sanitized</tspan>
+<tspan x="994.08" dy="12">No project, environment, or company-specific information</tspan>
+<tspan x="994.08" dy="12">Arrows indicate the flow of data and events</tspan>
+<tspan x="994.08" dy="12">Architecture shows key components and design patterns</tspan>
+<tspan x="994.08" dy="12">Components can be replaced with equivalent cloud services</tspan>
+</text>
+</g>
+
+<!-- Components -->
+<g id="comp-users">
+<ellipse cx="54.12" cy="283.635" rx="43.56" ry="57.915" fill="white" stroke="#202124" stroke-width="2"/>
+<text x="54.12" y="278" font-family="sans-serif" font-size="12" font-weight="700" fill="#202124" text-anchor="middle">Users</text>
+<text x="54.12" y="292" font-family="sans-serif" font-size="9" fill="#5F6368" text-anchor="middle">(Web / API Clients)</text>
+</g>
+<g id="comp-security">
+<rect x="116.16" y="198" width="154.44" height="168.3" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="193.38" y="218" font-family="sans-serif" font-size="11.5" font-weight="700" fill="#202124" text-anchor="middle">Security Layer</text>
+<text x="193.38" y="232" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="193.38" dy="0">Web Application Firewall</tspan>
+<tspan x="193.38" dy="10">Traffic Filtering</tspan>
+<tspan x="193.38" dy="10">Rate Limiting</tspan>
+<tspan x="193.38" dy="10">Threat Protection</tspan>
+</text>
+</g>
+<g id="comp-elb">
+<rect x="287.76" y="217.8" width="101.64" height="128.7" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="338.58" y="278" font-family="sans-serif" font-size="10.5" font-weight="700" fill="#202124" text-anchor="middle">
+<tspan x="338.58" dy="0">External Load</tspan>
+<tspan x="338.58" dy="12">Balancer</tspan>
+</text>
+</g>
+<g id="comp-apigw">
+<rect x="448.8" y="198" width="213.84" height="133.65" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="555.72" y="216" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">
+<tspan x="555.72" dy="0">API Gateway / Access Proxy</tspan>
+</text>
+<text x="555.72" y="232" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="555.72" dy="0">Authentication</tspan>
+<tspan x="555.72" dy="10">Authorization</tspan>
+<tspan x="555.72" dy="10">Request Routing</tspan>
+</text>
+</g>
+<g id="comp-core">
+<rect x="730.02" y="198" width="220.38" height="133.65" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="840.21" y="216" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Core Application Service</text>
+<text x="840.21" y="232" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="840.21" dy="0">Business Logic</tspan>
+<tspan x="840.21" dy="10">Orchestration</tspan>
+<tspan x="840.21" dy="10">Calls to Background Jobs</tspan>
+</text>
+</g>
+<g id="comp-scheduler">
+<rect x="496.32" y="403.92" width="166.32" height="83.16" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="579.48" y="424" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Scheduler</text>
+<text x="579.48" y="438" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="579.48" dy="0">Triggers Jobs</tspan>
+<tspan x="579.48" dy="10">Runs on Schedule</tspan>
+</text>
+</g>
+<g id="comp-batch">
+<rect x="694.32" y="403.92" width="179.52" height="83.16" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="784.08" y="424" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Batch Processor</text>
+<text x="784.08" y="438" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="784.08" dy="0">Processes Data</tspan>
+<tspan x="784.08" dy="10">Idempotency Controls</tspan>
+</text>
+</g>
+<g id="comp-queue">
+<rect x="469.92" y="539.55" width="155.76" height="89.1" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="547.8" y="560" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Event Queue</text>
+<text x="547.8" y="574" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="547.8" dy="0">Job Triggers</tspan>
+<tspan x="547.8" dy="10">Event Messages</tspan>
+</text>
+</g>
+<g id="comp-storage">
+<rect x="650.76" y="539.55" width="141.24" height="89.1" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="721.38" y="560" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Object Storage</text>
+<text x="721.38" y="574" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="721.38" dy="0">File Storage</tspan>
+<tspan x="721.38" dy="10">Output Data</tspan>
+</text>
+</g>
+<g id="comp-status">
+<rect x="809.16" y="539.55" width="154.44" height="89.1" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="886.38" y="560" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Status Events</text>
+<text x="886.38" y="574" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="886.38" dy="0">Processing Status</tspan>
+<tspan x="886.38" dy="10">Audit Events</tspan>
+</text>
+</g>
+<g id="comp-reporting">
+<rect x="575.52" y="665.28" width="180.84" height="89.1" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="665.94" y="686" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Reporting Worker</text>
+<text x="665.94" y="700" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="665.94" dy="0">Generate Reports</tspan>
+<tspan x="665.94" dy="10">Process Results</tspan>
+</text>
+</g>
+<g id="comp-notifsvc">
+<rect x="789.36" y="665.28" width="182.16" height="89.1" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="880.44" y="686" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Notification Service</text>
+<text x="880.44" y="700" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="880.44" dy="0">Send Notifications</tspan>
+<tspan x="880.44" dy="10">Email / Chat / SMS</tspan>
+</text>
+</g>
+<g id="comp-cache">
+<rect x="1122" y="190.08" width="172.92" height="161.37" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="1208.46" y="210" font-family="sans-serif" font-size="10" font-weight="700" fill="#202124" text-anchor="middle">
+<tspan x="1208.46" dy="0">Distributed Cache /</tspan>
+<tspan x="1208.46" dy="11">Key-Value Store</tspan>
+</text>
+<text x="1208.46" y="236" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="1208.46" dy="0">Idempotency Locking</tspan>
+<tspan x="1208.46" dy="10">Temporary State Management</tspan>
+<tspan x="1208.46" dy="10">High Availability</tspan>
+</text>
+</g>
+<g id="comp-idp">
+<rect x="35.64" y="861.3" width="196.68" height="87.12" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="133.98" y="882" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Identity Provider</text>
+<text x="133.98" y="896" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="133.98" dy="0">User Authentication</tspan>
+<tspan x="133.98" dy="10">Single Sign-On (SSO)</tspan>
+</text>
+</g>
+<g id="comp-msgplat">
+<rect x="257.4" y="861.3" width="196.68" height="87.12" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="355.74" y="882" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Messaging Platform</text>
+<text x="355.74" y="896" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="355.74" dy="0">Event Notifications</tspan>
+<tspan x="355.74" dy="10">Alerts</tspan>
+</text>
+</g>
+<g id="comp-mon">
+<rect x="475.2" y="861.3" width="191.4" height="87.12" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="570.9" y="882" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Monitoring &amp; Logging</text>
+<text x="570.9" y="896" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="570.9" dy="0">Centralized Logs</tspan>
+<tspan x="570.9" dy="10">Metrics &amp; Alerting</tspan>
+</text>
+</g>
+<g id="comp-notifchan">
+<rect x="694.32" y="861.3" width="183.48" height="87.12" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="1.8"/>
+<text x="786.06" y="882" font-family="sans-serif" font-size="11" font-weight="700" fill="#202124" text-anchor="middle">Notification Channels</text>
+<text x="786.06" y="896" font-family="sans-serif" font-size="8.5" fill="#5F6368" text-anchor="middle">
+<tspan x="786.06" dy="0">Email</tspan>
+<tspan x="786.06" dy="10">Chat / SMS</tspan>
+</text>
+</g>
 
 <!-- Arrows -->
-<line x1="310.2" y1="252.45" x2="289.08" y2="331.65" stroke="#5F6368" stroke-width="2" marker-end="url(#arrowhead)"/>
-<line x1="289.08" y1="445.5" x2="326.7" y2="495" stroke="#5F6368" stroke-width="2" marker-end="url(#arrowhead)"/>
-<line x1="445.52" y1="495" x2="910.24" y2="272.25" stroke="#5F6368" stroke-width="2" marker-end="url(#arrowhead)"/>
-<line x1="355.25" y1="608.85" x2="429.7" y2="757.35" stroke="#5F6368" stroke-width="2" marker-end="url(#arrowhead)"/>
-<line x1="999.24" y1="272.25" x2="996.16" y2="306.9" stroke="#5F6368" stroke-width="2" marker-end="url(#arrowhead)"/>
-<line x1="990" y1="445.5" x2="990" y2="470.25" stroke="#5F6368" stroke-width="2" marker-end="url(#arrowhead)"/>
-<line x1="912.84" y1="445.5" x2="565.62" y2="757.35" stroke="#5F6368" stroke-width="2" marker-end="url(#arrowhead)"/>
-
-<!-- Mechanism labels with white background -->
-<g>
-<rect x="602" y="370" width="152" height="20" fill="white" rx="4"/>
-<text x="678" y="384" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#202124">Direct VPC Egress</text>
+<g id="edges" fill="none" stroke="#5F6368" stroke-width="1.6" marker-end="url(#arrowhead)">
+<path d="M 97.68 283.63 L 116.16 282.15"/>
+<path d="M 270.6 282.15 L 287.76 282.15"/>
+<path d="M 389.4 282.15 L 448.8 264.82"/>
+<path d="M 662.64 264.82 L 730.02 264.82"/>
+<path d="M 840.21 331.65 L 784.08 403.92"/>
+<path d="M 840.21 331.65 L 886.38 539.55"/>
+<path d="M 950.4 270.76 L 1122 270.76"/>
+<path d="M 662.64 445.5 L 694.32 445.5"/>
+<path d="M 760 487.08 L 580 539.55"/>
+<path d="M 784.08 487.08 L 721.38 539.55"/>
+<path d="M 808 487.08 L 862 539.55"/>
+<path d="M 721.38 628.65 L 665.94 665.28"/>
+<path d="M 756.36 709.83 L 789.36 709.83"/>
 </g>
-<g>
-<rect x="905" y="445" width="170" height="20" fill="white" rx="4"/>
-<text x="990" y="459" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#202124">Private Service Access</text>
+<g id="edge-labels" font-family="sans-serif" font-size="10" fill="#202124">
+<text x="1036.2" y="260" text-anchor="middle" font-size="10" fill="#202124" stroke="white" stroke-width="3" paint-order="stroke">Private Service Connection</text>
+<text x="1036.2" y="260" text-anchor="middle" font-size="10" fill="#202124">Private Service Connection</text>
 </g>
-<g>
-<rect x="654" y="588" width="170" height="20" fill="white" rx="4"/>
-<text x="739" y="602" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#202124">Private Google Access</text>
-</g>
-
-<!-- USERS external ellipse -->
-<ellipse cx="310.2" cy="173.25" rx="132" ry="79.2" fill="white" stroke="#202124" stroke-width="2"/>
-<text x="310.2" y="168" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#202124">USERS</text>
-<text x="310.2" y="192" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#5F6368">(HTTPS)</text>
-
-<!-- CLOUD LOAD BALANCER -->
-<rect x="155.76" y="331.65" width="266.64" height="113.85" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="2"/>
-<text x="289.08" y="395" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#202124">
-<tspan x="289.08" dy="0">CLOUD LOAD</tspan>
-<tspan x="289.08" dy="22">BALANCER</tspan>
-</text>
-
-<!-- CLOUD RUN SERVICE -->
-<rect x="145.2" y="495" width="363" height="113.85" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="2"/>
-<text x="326.7" y="545" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#202124">CLOUD RUN SERVICE</text>
-<text x="326.7" y="570" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#5F6368">Serverless FE</text>
-
-<!-- CLOUD STORAGE -->
-<rect x="283.8" y="757.35" width="376.2" height="168.3" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="2"/>
-<text x="471.9" y="815" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#202124">CLOUD STORAGE</text>
-<text x="471.9" y="840" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#5F6368">Bucket</text>
-<text x="471.9" y="858" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#5F6368">Files &amp; Static Assets</text>
-
-<!-- Firewall Rule -->
-<rect x="778.8" y="183.15" width="448.8" height="89.1" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="2"/>
-<text x="1003.2" y="215" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="600" fill="#202124">Firewall Rule</text>
-<text x="1003.2" y="238" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#202124">Allow TCP: 8080</text>
-
-<!-- Compute Engine VM -->
-<rect x="805.2" y="306.9" width="369.6" height="138.6" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="2"/>
-<text x="990" y="365" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#202124">Compute Engine VM</text>
-<text x="990" y="390" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#5F6368">Backend in Private Subnet</text>
-
-<!-- Cloud SQL -->
-<rect x="805.2" y="470.25" width="369.6" height="148.5" rx="10" ry="10" fill="white" stroke="#202124" stroke-width="2"/>
-<text x="990" y="530" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#202124">Cloud SQL</text>
-<text x="990" y="555" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#5F6368">Postgres</text>
-
 </svg>

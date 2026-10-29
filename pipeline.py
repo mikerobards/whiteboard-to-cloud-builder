@@ -21,13 +21,18 @@ STAGES = [
     ("graph",     [PYBIN, "stages/spark_graph.py",
      PHOTO, "boxes.json"], "edges.json",  "json"),
     ("terraform", [PYBIN, "stages/spark_terraform.py",
-     "boxes.json", "edges.json"], "main.tf", "hcl"),
+     "boxes.json", "edges.json"], "terraform", "tfdir"),
     ("diagram",   [PYBIN, "stages/spark_diagram.py",
      "boxes.json", "edges.json"],   "diagram.svg", "svg"),
 ]
 
 
 def validate(kind, path):
+    if kind == "tfdir":
+        tfs = [f for f in os.listdir(path) if f.endswith(".tf")]
+        if not tfs:
+            raise ValueError("no .tf files in terraform/")
+        return
     raw = open(path).read()
     if not raw.strip():
         raise ValueError("empty output")
@@ -71,5 +76,5 @@ for name, cmd, out, kind in STAGES:
         sys.exit(1)
 
 cost = total_in / 1e6 * IN_PRICE + total_out / 1e6 * OUT_PRICE
-print("done: boxes.json, edges.json, main.tf, diagram.svg")
+print("done: boxes.json, edges.json, terraform/*.tf, diagram.svg")
 print(f"total: {total_in} in / {total_out} out tokens ~= ${cost:.4f}")
