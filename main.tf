@@ -26,7 +26,7 @@ resource "google_compute_subnetwork" "vpc_network_subnet" {
 }
 
 resource "google_service_account" "vm_sa" {
-  account_id   = "vm-sa"
+  account_id   = "backend-vm-sa"
   display_name = "VM service account"
 }
 
@@ -38,7 +38,7 @@ resource "google_compute_instance" "compute_engine_vm" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-11"
+      image = "debian-cloud/debian-12"
     }
   }
 
@@ -71,6 +71,7 @@ resource "google_service_account" "cloud_run_sa" {
 }
 
 resource "google_cloud_run_v2_service" "cloud_run_service" {
+  deletion_protection = false
   name     = "cloud-run-service"
   location = var.region
 
