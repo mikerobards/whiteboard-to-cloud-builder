@@ -5,6 +5,7 @@ import ssl
 import sys
 from dotenv import load_dotenv
 from openai import OpenAI
+from typing import Any, cast
 import httpx
 import truststore
 
@@ -25,7 +26,7 @@ _tls = truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 _http = httpx.Client(verify=_tls)
 client = OpenAI(base_url="https://api.meta.ai/v1",
                 api_key=os.environ["META_API_KEY"],
-                http_client=_http)
+                http_client=cast(Any, _http))
 
 prompt = """Return JSON only, no other text.
 You are given an architecture diagram photo and the list of shapes already detected in it.

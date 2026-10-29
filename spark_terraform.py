@@ -23,7 +23,7 @@ _tls = truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 _http = httpx.Client(verify=_tls)
 client = OpenAI(base_url="https://api.meta.ai/v1",
                 api_key=os.environ["META_API_KEY"],
-                http_client=_http)
+                http_client=_http)  # type: ignore[arg-type]  # Truststore-backed httpx client
 
 prompt = """Return Terraform HCL only: no markdown fences, no explanations, no commentary.
 Generate a complete root-module main.tf for this GCP architecture.
