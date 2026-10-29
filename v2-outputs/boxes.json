@@ -1,0 +1,10 @@
+[
+  {"label": "USERS (HTTPS)", "type": "external", "parent": null, "box": [20, 170, 285, 265]},
+  {"label": "Cloud Run Service", "type": "component", "parent": null, "box": [50, 350, 315, 485]},
+  {"label": "Direct VPC Egress", "type": "connection", "parent": null, "box": [330, 395, 365, 430]},
+  {"label": "VPC Network", "type": "container", "parent": null, "box": [435, 235, 980, 645]},
+  {"label": "Firewall Rule: Allow TCP:8080", "type": "component", "parent": "VPC Network", "box": [495, 360, 935, 435]},
+  {"label": "Compute Engine VM", "type": "component", "parent": "VPC Network", "box": [510, 470, 945, 605]},
+  {"label": "Private Google Access", "type": "connection", "parent": null, "box": [670, 685, 715, 735]},
+  {"label": "Cloud Storage Bucket", "type": "component", "parent": null, "box": [230, 720, 665, 915]}
+]

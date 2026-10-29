@@ -1,10 +1,10 @@
 [
-  {"label": "USERS (HTTPS)", "type": "external", "parent": null, "box": [20, 170, 285, 265]},
-  {"label": "Cloud Run Service", "type": "component", "parent": null, "box": [50, 350, 315, 485]},
-  {"label": "Direct VPC Egress", "type": "connection", "parent": null, "box": [330, 395, 365, 430]},
-  {"label": "VPC Network", "type": "container", "parent": null, "box": [435, 235, 980, 645]},
-  {"label": "Firewall Rule: Allow TCP:8080", "type": "component", "parent": "VPC Network", "box": [495, 360, 935, 435]},
-  {"label": "Compute Engine VM", "type": "component", "parent": "VPC Network", "box": [510, 470, 945, 605]},
-  {"label": "Private Google Access", "type": "connection", "parent": null, "box": [670, 685, 715, 735]},
-  {"label": "Cloud Storage Bucket", "type": "component", "parent": null, "box": [230, 720, 665, 915]}
+  {"label": "USERS", "detail": "(HTTPS)", "type": "external", "parent": null, "box": [135, 95, 335, 255]},
+  {"label": "CLOUD LOAD BALANCER", "detail": null, "type": "component", "parent": null, "box": [118, 335, 320, 450]},
+  {"label": "CLOUD RUN SERVICE", "detail": "Serverless FE", "type": "component", "parent": null, "box": [110, 500, 385, 615]},
+  {"label": "CLOUD STORAGE", "detail": "Bucket\nFiles & Static Assets", "type": "component", "parent": null, "box": [215, 765, 500, 935]},
+  {"label": "VPC Network", "detail": null, "type": "container", "parent": null, "box": [555, 95, 980, 715]},
+  {"label": "Firewall Rule: Allow TCP: 8080", "detail": null, "type": "component", "parent": "VPC Network", "box": [590, 185, 930, 275]},
+  {"label": "Compute Engine VM", "detail": "Backend in Private Subnet", "type": "component", "parent": "VPC Network", "box": [610, 310, 890, 450]},
+  {"label": "Cloud SQL", "detail": "Postgres", "type": "component", "parent": "VPC Network", "box": [610, 475, 890, 625]}
 ]
