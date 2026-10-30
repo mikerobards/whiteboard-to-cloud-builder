@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()  # stages read it themselves; harmless here
 
-PHOTO = sys.argv[1] if len(sys.argv) > 1 else "./images/GCP-1.jpg"
+PHOTO = sys.argv[1] if len(sys.argv) > 1 else "./images/GCP-1-clean.jpg"
 PYBIN = sys.executable  # the venv interpreter, not the Store shim
 
 # Meta API price per 1M tokens (Oct 2026): input $1.25, output $4.25
