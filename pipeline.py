@@ -19,6 +19,8 @@ STAGES = [
      PHOTO, "boxes.json"], "edges.json",  "json"),
     ("terraform", [PYBIN, "stages/spark_terraform.py",
      "boxes.json", "edges.json"], "terraform", "tfdir"),
+    ("terraform-repair", [PYBIN, "stages/spark_terraform_repair.py"],
+     "terraform", "tfdir"),
     ("diagram",   [PYBIN, "stages/spark_diagram.py",
      "boxes.json", "edges.json"],   "diagram.svg", "svg"),
 ]
@@ -42,9 +44,9 @@ def validate(kind, path):
 
 
 def tokens_of(stdout):
-    m1 = re.search(r"prompt_tokens=(\d+)", stdout)
-    m2 = re.search(r"completion_tokens=(\d+)", stdout)
-    return (int(m1.group(1)) if m1 else 0, int(m2.group(1)) if m2 else 0)
+    m1 = re.findall(r"prompt_tokens=(\d+)", stdout)
+    m2 = re.findall(r"completion_tokens=(\d+)", stdout)
+    return (int(m1[-1]) if m1 else 0, int(m2[-1]) if m2 else 0)
 
 
 total_in = total_out = 0

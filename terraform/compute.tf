@@ -1,8 +1,9 @@
 resource "google_cloud_run_v2_service" "serverless_fe" {
-  name                = "serverless-fe"
-  location            = var.region
+  name     = "serverless-fe"
+  location = var.region
+  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+
   deletion_protection = false
-  ingress             = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
 
   template {
     service_account = google_service_account.cloud_run_sa.email
@@ -21,7 +22,7 @@ resource "google_cloud_run_v2_service" "serverless_fe" {
     }
   }
 
-  depends_on = [google_service_networking_connection.private_vpc_connection]
+  depends_on = [google_service_networking_connection.private_service_access]
 }
 
 resource "google_compute_instance" "backend_vm" {
@@ -43,6 +44,8 @@ resource "google_compute_instance" "backend_vm" {
 
   service_account {
     email  = google_service_account.backend_vm_sa.email
-    scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+    scopes = ["cloud-platform"]
   }
+
+  depends_on = [google_service_networking_connection.private_service_access]
 }
