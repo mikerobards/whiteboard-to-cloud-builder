@@ -19,6 +19,8 @@ STAGES = [
      PHOTO, "boxes.json"], "edges.json",  "json"),
     ("terraform", [PYBIN, "stages/spark_terraform.py",
      "boxes.json", "edges.json"], "terraform", "tfdir"),
+    ("terraform-repair", [PYBIN, "stages/spark_terraform_repair.py"],
+     "terraform", "tfdir"),
     ("diagram",   [PYBIN, "stages/spark_diagram.py",
      "boxes.json", "edges.json"],   "diagram.svg", "svg"),
 ]
