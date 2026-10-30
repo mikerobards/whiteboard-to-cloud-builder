@@ -1,0 +1,4 @@
+# Test-only dependencies. Install with:
+#   .venv/bin/pip install -r requirements-test.txt
+# Never imported by pipeline.py, stages/, or evals/.
+pytest==9.2.0
