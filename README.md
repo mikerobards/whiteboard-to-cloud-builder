@@ -76,7 +76,7 @@ The loop only guarantees valid HCL — it never runs `terraform apply`. That's s
 
 Unit tests — offline, no API key needed:
 
-```
+```bash
 .venv/bin/pip install -r requirements-test.txt
 .venv/bin/python -m pytest tests/ -q
 ```
@@ -85,7 +85,7 @@ Tests mock the model client and `subprocess` at the boundary (a fixture fails an
 
 Evals — real API calls, roughly $0.05 per case (~$0.10 for the full two-case run):
 
-```
+```bash
 python evals/run_evals.py
 ```
 
