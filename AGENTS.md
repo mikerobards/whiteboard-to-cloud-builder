@@ -1,4 +1,4 @@
-\*\*\*\*# AGENTS.md — whiteboard-to-cloud-builder
+# AGENTS.md — whiteboard-to-cloud-builder
 
 Snap a photo of a hand-drawn GCP architecture sketch, get GCP Terraform plus a
 clean architecture diagram. The whole pipeline is a single model (Meta Muse
