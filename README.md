@@ -72,6 +72,25 @@ The `terraform-repair` stage validates the generated module and asks Spark to fi
 
 The loop only guarantees valid HCL — it never runs `terraform apply`. That's still your call.
 
+## Tests and evals
+
+Unit tests — offline, no API key needed:
+
+```
+.venv/bin/pip install -r requirements-test.txt
+.venv/bin/python -m pytest tests/ -q
+```
+
+Tests mock the model client and `subprocess` at the boundary (a fixture fails any test that touches the network), and never refactor the stage scripts to do it. Untestable-without-refactor areas are noted in the test files rather than covered.
+
+Evals — real API calls, roughly $0.05 per case (~$0.10 for the full two-case run):
+
+```
+python evals/run_evals.py
+```
+
+Runs boxes, graph, terraform, plus a repair drill against the v2 and v3 golden cases, then prints a score table and total cost. Exits nonzero unless every check passes. This is the prompt-regression gate: run it after any stage-prompt change. Strict by design — any deviation from the goldens fails.
+
 ## Cost
 
 Roughly $0.04 per full run at current Meta API pricing. The entire demo costs less than a nickel.
