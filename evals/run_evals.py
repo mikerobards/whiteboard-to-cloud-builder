@@ -51,14 +51,25 @@ def tokens_of(stdout):
     return (int(m1[-1]) if m1 else 0, int(m2[-1]) if m2 else 0)
 
 
+def _fold(s):
+    return (s or "").casefold()
+
+
 def score_boxes(pred, gold):
-    """Box count, label exact-match rate, parent correctness vs goldens."""
-    gold_labels = {b.get("label") for b in gold}
-    pred_labels = {b.get("label") for b in pred}
-    matched = gold_labels & pred_labels
-    label_rate = len(matched) / len(gold_labels) if gold_labels else 0.0
-    gold_parent = {b.get("label"): b.get("parent") for b in gold}
-    pred_parent = {b.get("label"): b.get("parent") for b in pred}
+    """Box count, label match rate, parent correctness vs goldens.
+
+    Labels compare case-insensitively; missing/extra report the original
+    labels for readability.
+    """
+    gold_map, pred_map = {}, {}
+    for b in gold:
+        gold_map.setdefault(_fold(b.get("label")), b.get("label"))
+    for b in pred:
+        pred_map.setdefault(_fold(b.get("label")), b.get("label"))
+    matched = set(gold_map) & set(pred_map)
+    label_rate = len(matched) / len(gold_map) if gold_map else 0.0
+    gold_parent = {_fold(b.get("label")): _fold(b.get("parent")) for b in gold}
+    pred_parent = {_fold(b.get("label")): _fold(b.get("parent")) for b in pred}
     same_parent = sum(1 for lab in matched
                       if pred_parent.get(lab) == gold_parent.get(lab))
     parent_rate = same_parent / len(matched) if matched else 0.0
@@ -67,47 +78,53 @@ def score_boxes(pred, gold):
               and parent_rate >= MIN_PARENT_RATE)
     return {"count": (len(pred), len(gold)), "label_rate": label_rate,
             "parent_rate": parent_rate,
-            "missing": sorted(gold_labels - pred_labels),
-            "extra": sorted(pred_labels - gold_labels),
+            "missing": sorted([gold_map[k] for k in set(gold_map) - matched], key=repr),
+            "extra": sorted([pred_map[k] for k in set(pred_map) - matched], key=repr),
             "passed": passed}
 
 
 def _edge_key(e):
+    return (_fold(e.get("source")), _fold(e.get("target")),
+            e.get("mechanism"))
+
+
+def _edge_orig(e):
     return (e.get("source"), e.get("target"), e.get("mechanism"))
 
 
 def score_edges(pred, gold):
-    """Edge exact-match rate (endpoints + mechanism) vs expected edges."""
-    gold_keys = {_edge_key(e) for e in gold}
-    pred_keys = {_edge_key(e) for e in pred}
-    matched = gold_keys & pred_keys
-    rate = len(matched) / len(gold_keys) if gold_keys else 0.0
+    """Edge exact-match rate (endpoints + mechanism) vs expected edges.
+
+    Endpoints compare case-insensitively, mechanisms exactly; missing/extra
+    report the original endpoint labels for readability.
+    """
+    gold_map, pred_map = {}, {}
+    for e in gold:
+        gold_map.setdefault(_edge_key(e), _edge_orig(e))
+    for e in pred:
+        pred_map.setdefault(_edge_key(e), _edge_orig(e))
+    matched = set(gold_map) & set(pred_map)
+    rate = len(matched) / len(gold_map) if gold_map else 0.0
     return {"rate": rate, "matched": len(matched),
-            "expected": len(gold_keys),
-            "missing": sorted(gold_keys - matched),
-            "extra": sorted(pred_keys - gold_keys),
+            "expected": len(gold_map),
+            "missing": sorted([gold_map[k] for k in set(gold_map) - matched], key=repr),
+            "extra": sorted([pred_map[k] for k in set(pred_map) - matched], key=repr),
             "passed": rate >= MIN_EDGE_RATE}
 
 
-def _slug_variants(label):
-    words = re.sub(r"[^a-z0-9]+", " ", (label or "").lower()).split()
-    if not words:
-        return set()
-    return {"_".join(words), "-".join(words), "".join(words)}
+def coverage_of(pred_tf_text, golden_tf_text):
+    """Fraction of golden resource types present in the predicted module.
 
-
-def coverage_of(components, tf_text):
-    """Fraction of components with >= 1 resource in the HCL.
-
-    Heuristic: a component counts as covered when a slug variant of its
-    label (snake/kebab/squashed) appears anywhere in the module text.
+    Pass iff every resource TYPE in the golden output appears at least
+    once in the predicted output; report missing types.
     """
-    hay = tf_text.lower()
-    missing = [c for c in components
-               if not any(v in hay for v in _slug_variants(c))]
-    rate = ((len(components) - len(missing)) / len(components)
-            if components else 0.0)
-    return {"rate": rate, "missing": sorted(missing),
+    pat = r'resource "([^"]+)" "[^"]+"'
+    gold_types = set(re.findall(pat, golden_tf_text))
+    pred_types = set(re.findall(pat, pred_tf_text))
+    missing = sorted(gold_types - pred_types)
+    rate = ((len(gold_types) - len(missing)) / len(gold_types)
+            if gold_types else 0.0)
+    return {"rate": rate, "total": len(gold_types), "missing": missing,
             "passed": rate >= MIN_COVERAGE}
 
 
@@ -219,13 +236,19 @@ def _eval_case(case):
             ok, out = _terraform_ok(tfdir)
             tfs = sorted(tfdir.glob("*.tf"))
             tf_text = "".join(f.read_text() for f in tfs)
-            comps = [b.get("label") for b in pred_boxes
-                     if b.get("type") == "component"]
-            cov = coverage_of(comps, tf_text)
+            if case["golden_tf"] is None:
+                golden_text = "".join(
+                    f.read_text() for f in
+                    sorted((REPO / "terraform").glob("*.tf")))
+            else:
+                golden_text = "".join(
+                    (REPO / rel).read_text() for rel in case["golden_tf"])
+            cov = coverage_of(tf_text, golden_text)
             passed = ok and cov["passed"]
             detail = (f"validate={'pass' if ok else 'FAIL'}, "
                       f"coverage {cov['rate']:.0%} "
-                      f"({len(comps) - len(cov['missing'])}/{len(comps)})")
+                      f"({cov['total'] - len(cov['missing'])}/"
+                      f"{cov['total']} types)")
             if cov["missing"]:
                 detail += f" missing={cov['missing']}"
             if not ok:
