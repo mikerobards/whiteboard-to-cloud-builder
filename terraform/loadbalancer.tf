@@ -1,3 +1,7 @@
+resource "google_compute_global_address" "lb_ip" {
+  name = "lb-global-ip"
+}
+
 resource "google_compute_region_network_endpoint_group" "cloud_run_neg" {
   name                  = "cloud-run-neg"
   region                = var.region
@@ -8,8 +12,8 @@ resource "google_compute_region_network_endpoint_group" "cloud_run_neg" {
   }
 }
 
-resource "google_compute_backend_service" "fe_backend" {
-  name                  = "fe-backend-service"
+resource "google_compute_backend_service" "lb_backend" {
+  name                  = "cloud-run-backend"
   load_balancing_scheme = "EXTERNAL_MANAGED"
   protocol              = "HTTP"
 
@@ -19,18 +23,19 @@ resource "google_compute_backend_service" "fe_backend" {
 }
 
 resource "google_compute_url_map" "url_map" {
-  name            = "fe-url-map"
-  default_service = google_compute_backend_service.fe_backend.id
+  name            = "cloud-run-url-map"
+  default_service = google_compute_backend_service.lb_backend.id
 }
 
 resource "google_compute_target_http_proxy" "http_proxy" {
-  name    = "fe-http-proxy"
+  name    = "cloud-run-http-proxy"
   url_map = google_compute_url_map.url_map.id
 }
 
 resource "google_compute_global_forwarding_rule" "http_forwarding_rule" {
-  name                  = "fe-http-forwarding-rule"
+  name                  = "http-forwarding-rule"
   target                = google_compute_target_http_proxy.http_proxy.id
   port_range            = "80"
+  ip_address            = google_compute_global_address.lb_ip.address
   load_balancing_scheme = "EXTERNAL_MANAGED"
 }

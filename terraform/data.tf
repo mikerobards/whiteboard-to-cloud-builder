@@ -1,10 +1,8 @@
 resource "google_sql_database_instance" "postgres" {
   name                = "postgres-instance"
-  region              = var.region
   database_version    = "POSTGRES_15"
+  region              = var.region
   deletion_protection = false
-
-  depends_on = [google_service_networking_connection.private_vpc_connection]
 
   settings {
     tier = "db-f1-micro"
@@ -13,4 +11,6 @@ resource "google_sql_database_instance" "postgres" {
       private_network = google_compute_network.vpc_network.id
     }
   }
+
+  depends_on = [google_service_networking_connection.private_service_access]
 }
