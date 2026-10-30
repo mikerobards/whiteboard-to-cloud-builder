@@ -4,9 +4,6 @@ import re
 import subprocess
 import sys
 import time
-from dotenv import load_dotenv
-
-load_dotenv()  # stages read it themselves; harmless here
 
 PHOTO = sys.argv[1] if len(sys.argv) > 1 else "./images/GCP-1-clean.jpg"
 PYBIN = sys.executable  # the venv interpreter, not the Store shim
