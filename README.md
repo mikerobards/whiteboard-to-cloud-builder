@@ -24,7 +24,7 @@ No training, no hand-written parsers. A SAM segmentation spike was tested and dr
 
 Full pipeline, one command (run from the repo root; outputs are always written to the working directory):
 
-```
+```bash
 python pipeline.py ./images/GCP-1-clean.jpeg
 ```
 
@@ -32,7 +32,7 @@ Other sample sketches: `Handwritten-GCP-1.jpg`, `Sanitized.png`, `v3-whiteboard.
 
 Or run stages individually:
 
-```
+```bash
 python stages/spark_boxes.py ./images/GCP-1-clean.jpeg
 python stages/spark_graph.py ./images/GCP-1-clean.jpeg boxes.json
 python stages/spark_terraform.py boxes.json edges.json
@@ -40,6 +40,37 @@ python stages/spark_diagram.py boxes.json edges.json
 ```
 
 Each stage validates its output and retries up to three times. The pipeline prints total token usage and an approximate dollar cost at the end. Note: the terraform stage deletes and regenerates every `*.tf` file in `terraform/` on each run.
+
+## Testing the repair loop
+
+The `terraform-repair` stage validates the generated module and asks Spark to fix any errors, looping until `terraform validate` passes (3 attempts by default). To try it with a deliberately broken module:
+
+1. Copy a known-good module to a scratch directory (outside the repo, so the pipeline's `terraform/` output stays intact):
+
+   ```bash
+   cp -r terraform /tmp/tf-broken
+   ```
+
+2. Break one file on purpose — e.g. add an unsupported `description` argument to the bucket in `/tmp/tf-broken/storage.tf`:
+
+   ```hcl
+   resource "google_storage_bucket" "bucket_files_static_assets" {
+     ...
+     description = "broken on purpose"
+   }
+   ```
+
+3. Run the repair script against it (args: `[terraform_dir] [model] [max_attempts]`):
+
+   ```bash
+   python stages/spark_terraform_repair.py /tmp/tf-broken
+   ```
+
+4. Watch the loop: an `attempt N/M` banner, the full raw validate errors, `rewrote: ...`, per-call `usage:` lines, and finally `valid`.
+5. Confirm: `terraform -chdir=/tmp/tf-broken validate` should pass, and `repair-log.md` (repo root) records the timestamp, attempt, errors, and files rewritten.
+6. Delete the scratch dir when done.
+
+The loop only guarantees valid HCL — it never runs `terraform apply`. That's still your call.
 
 ## Cost
 
