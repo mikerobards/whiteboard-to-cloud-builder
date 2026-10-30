@@ -48,6 +48,13 @@ def tf_files():
     return sorted(f for f in os.listdir(TFDIR) if f.endswith(".tf"))
 
 
+ANSI = re.compile(r"\x1b\[[0-9;]*m")  # terraform SGR color codes
+
+
+def clean(text):
+    return ANSI.sub("", text)
+
+
 def run_terraform(args):
     try:
         return subprocess.run(args, cwd=TFDIR, capture_output=True, text=True)
@@ -159,7 +166,8 @@ Current file contents:
     with open("repair-log.md", "a") as log:
         log.write(f"## {stamp} — attempt {attempt}/{MAX_ATTEMPTS}"
                   f" ({TFDIR})\n")
-        log.write("Validate errors:\n```\n" + errors.rstrip() + "\n```\n")
+        log.write("Validate errors:\n```\n" + clean(errors.rstrip())
+                  + "\n```\n")
         log.write("Files rewritten: " + ", ".join(sorted(files)) + "\n\n")
 
     line = f"usage: {resp.usage}"
