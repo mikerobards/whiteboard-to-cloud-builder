@@ -8,7 +8,7 @@ wins.
 
 A photo of a hand-drawn cloud architecture sketch or diagram goes in; production-shaped
 GCP Terraform and a clean architecture diagram come out. One model (Meta Muse
-Spark, via an OpenAI-compatible API), five stages, no training, no
+Spark, via an OpenAI-compatible API), six stages, no training, no
 hand-written parsers.
 
 ## 2. Stage contracts
@@ -51,6 +51,19 @@ hand-written parsers.
   the human decides what becomes a permanent prompt rule.
 - Guarantees valid HCL, not correct infrastructure. Never runs
   `terraform apply`.
+
+### Cost — `stages/spark_cost.py [terraform_dir] [model]` → `cost.json`
+
+- Estimates monthly GCP cost from the resource types and sizing attributes
+  parsed out of `terraform/`. Runs after repair, so it prices the final
+  validated module.
+- Output is a JSON object: `currency`, `assumptions`, `resources` (one entry
+  per input resource: `type`, `name`, `monthly_usd`, `confidence`, `note`),
+  `total_monthly_usd` (must equal the sum of `monthly_usd`), `disclaimer`.
+- Coverage: every resource parsed from `terraform/` must appear in
+  `resources`; resources with no charge are listed at `0.00`.
+- Estimates come from the model's training-data pricing and are labeled as
+  such — never presented as a quote.
 
 ### Diagram — `stages/spark_diagram.py <boxes> <edges> [model]` → `diagram.svg`
 

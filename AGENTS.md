@@ -2,7 +2,7 @@
 
 Snap a photo of a hand-drawn or diagrammed GCP architecture sketch, get GCP Terraform plus a
 clean architecture diagram. The whole pipeline is a single model (Meta Muse
-Spark, via an OpenAI-compatible API) run in five stages. No training, no
+Spark, via an OpenAI-compatible API) run in six stages. No training, no
 hand-written parsers.
 
 ## Setup
@@ -36,12 +36,13 @@ python stages/spark_boxes.py ./images/GCP-1-clean.jpeg
 python stages/spark_graph.py ./images/GCP-1-clean.jpeg boxes.json
 python stages/spark_terraform.py boxes.json edges.json
 python stages/spark_terraform_repair.py [terraform_dir] [model] [max_attempts]
+python stages/spark_cost.py [terraform_dir] [model]
 python stages/spark_diagram.py boxes.json edges.json
 ```
 
 Repair defaults: `terraform`, `muse-spark-1.1`, 3 attempts.
 
-`pipeline.py` runs all five stages with up to 3 attempts each, validates outputs, and
+`pipeline.py` runs all six stages with up to 3 attempts each, validates outputs, and
 prints total token usage plus an approximate dollar cost (~$0.04/run). Avoid
 blind rerun loops; each run costs real API money.
 
@@ -72,6 +73,7 @@ python evals/run_evals.py
 | Graph     | `stages/spark_graph.py`            | `<photo> <boxes> [model]`     | `edges.json` (`{"edges": [...]}`)         |
 | Terraform | `stages/spark_terraform.py`        | `<boxes> <edges> [model]`     | `terraform/*.tf` (multi-file root module) |
 | Repair    | `stages/spark_terraform_repair.py` | `[terraform_dir] [model] [n]` | repairs `terraform/` in place             |
+| Cost      | `stages/spark_cost.py`             | `[terraform_dir] [model]`     | `cost.json` (monthly USD estimates)       |
 | Diagram   | `stages/spark_diagram.py`          | `<boxes> <edges> [model]`     | `diagram.svg` (standalone SVG)            |
 
 - Outputs are always written to the **current working directory** under fixed
@@ -114,6 +116,14 @@ python evals/run_evals.py
 - `source`/`target` must match `boxes.json` labels exactly.
 - `type: connection` shapes go in `mechanism` (or arrow-adjacent text does),
   never as endpoints. `mechanism` is `null` when the arrow is unlabeled.
+
+`cost.json` — `{"currency", "assumptions", "resources", "total_monthly_usd", "disclaimer"}`:
+
+- `resources`: one entry per resource parsed from `terraform/`
+  (`type`, `name`, `monthly_usd`, `confidence`, `note`).
+- `total_monthly_usd` must equal the sum of `monthly_usd`.
+- Estimates from training-data pricing, labeled as such in `disclaimer` —
+  never a quote.
 
 ## Output conventions
 
@@ -172,7 +182,7 @@ http_client=httpx.Client(verify=truststore.SSLContext(...)))`. The
 
 ## Repo layout
 
-- `pipeline.py` — runner (retries, validation, cost). `stages/` — the five
+- `pipeline.py` — runner (retries, validation, cost). `stages/` — the six
   stages. `images/` — sample sketches.
 - `tests/` — offline unit tests (`pytest tests/`). `evals/` — golden evals
   (`python evals/run_evals.py`, real API calls). `requirements-test.txt` —
@@ -186,7 +196,7 @@ http_client=httpx.Client(verify=truststore.SSLContext(...)))`. The
   `sam_masks.png`) kept as documentation, plus `draw_boxes.py`. Do not extend;
   the pipeline is Spark-only by decision.
 - `v2-outputs/` — archive of v2 golden outputs (boxes, edges, diagram, original single-file main.tf).
-- Verify by running the affected stage(s) and checking the artifact: `python -m json.tool boxes.json`,
+- Verify by running the affected stage(s) and checking the artifact: `python -m json.tool boxes.json`, `python -m json.tool cost.json`,
   `terraform -chdir=terraform validate` (needs `terraform init` first),
   open `diagram.svg` in a browser. `pytest tests/` must stay green.
 
