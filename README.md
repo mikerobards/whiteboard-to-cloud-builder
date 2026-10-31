@@ -74,6 +74,12 @@ The loop only guarantees valid HCL — it never runs `terraform apply`. That's s
 
 ## Tests and evals
 
+Front door: `python harness.py` runs the unit tests (offline, default),
+`python harness.py --evals` adds the golden evals, and
+`python harness.py --pipeline <photo>` runs the full pipeline on a photo.
+Anything else prints usage and exits 2. Every step streams live with a
+pass/fail summary at the end.
+
 Unit tests — offline, no API key needed:
 
 ```bash
