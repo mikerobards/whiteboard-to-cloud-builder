@@ -15,6 +15,12 @@ hand-written parsers.
 
 ## Running
 
+One front door for verification: `python harness.py` (pytest, offline),
+`python harness.py --evals` (pytest + golden evals, ~$0.06),
+`python harness.py --pipeline <photo>` (full pipeline). Anything else
+prints usage and exits 2. Every subprocess runs under `sys.executable`
+and streams live, with a pass/fail summary at the end.
+
 Full pipeline:
 
 ```sh
