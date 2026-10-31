@@ -130,3 +130,49 @@ def test_validate_cost_rejects_malformed_json():
     del bad["resources"]
     with pytest.raises(ValueError):
         validate_cost(bad, ["google_compute_instance.backend_vm"])
+
+
+def test_parse_resources_keeps_redis_memory_size(tmp_path):
+    (tmp_path / "cache.tf").write_text(
+        'resource "google_redis_instance" "cache" {\n'
+        '  tier = "STANDARD_HA"\n'
+        '  memory_size_gb = 5\n'
+        '}\n'
+    )
+    lines = parse_resources(str(tmp_path))
+    assert len(lines) == 1
+    assert lines[0].startswith("google_redis_instance.cache")
+    assert "tier=STANDARD_HA" in lines[0]
+    assert "memory_size_gb=5" in lines[0]
+
+
+def test_validate_cost_rejects_duplicate_resource():
+    data = _good_payload()
+    vm = dict(data["resources"][0])
+    data["resources"].append(vm)
+    data["total_monthly_usd"] = round(
+        data["total_monthly_usd"] + vm["monthly_usd"], 2)
+    expected = [
+        "google_compute_instance.backend_vm",
+        "google_compute_network.main",
+    ]
+    with pytest.raises(ValueError):
+        validate_cost(data, expected)
+
+
+def test_validate_cost_rejects_unexpected_resource():
+    data = _good_payload()
+    data["resources"].append({
+        "type": "google_compute_instance",
+        "name": "sneaky_extra",
+        "monthly_usd": 10.00,
+        "confidence": "low",
+        "note": "invented by the model",
+    })
+    data["total_monthly_usd"] = round(data["total_monthly_usd"] + 10.00, 2)
+    expected = [
+        "google_compute_instance.backend_vm",
+        "google_compute_network.main",
+    ]
+    with pytest.raises(ValueError):
+        validate_cost(data, expected)

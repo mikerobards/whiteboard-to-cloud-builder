@@ -36,6 +36,7 @@ def parse_resources(tf_dir):
         "database_version",
         "node_count",
         "memory",
+        "memory_size_gb",
         "cpu",
         "max_instances",
         "min_instances",
@@ -90,6 +91,12 @@ def validate_cost(data, expected_resource_keys):
     resources = data["resources"]
     if not isinstance(resources, list):
         raise ValueError("resources must be a list")
+    expected = set()
+    for exp in expected_resource_keys:
+        key = exp.split()[0] if exp.split() else exp
+        if "(" in key:
+            key = key[:key.index("(")].strip()
+        expected.add(key.strip())
     seen = set()
     total = 0.0
     for r in resources:
@@ -102,13 +109,14 @@ def validate_cost(data, expected_resource_keys):
             monthly = float(r["monthly_usd"])
         except (TypeError, ValueError):
             raise ValueError(f"monthly_usd must be a number: {r!r}")
+        rkey = f"{r['type']}.{r['name']}"
+        if rkey not in expected:
+            raise ValueError(f"unexpected resource: {rkey}")
+        if rkey in seen:
+            raise ValueError(f"duplicate resource: {rkey}")
         total += monthly
-        seen.add(f"{r['type']}.{r['name']}")
-    for exp in expected_resource_keys:
-        key = exp.split()[0] if exp.split() else exp
-        if "(" in key:
-            key = key[:key.index("(")].strip()
-        key = key.strip()
+        seen.add(rkey)
+    for key in expected:
         if key not in seen:
             raise ValueError(f"missing expected resource: {key}")
     try:
