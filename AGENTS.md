@@ -10,6 +10,8 @@ hand-written parsers.
 - Python 3.10+. `python -m venv .venv`, activate it, `python -m pip install -r requirements.txt` (pinned).
 - `python -m pip install -r requirements-test.txt` for the test suite (pytest, pinned; never imported by pipeline/stages/evals).
 - `cp .env.example .env` and set `META_API_KEY`. Keys live in `.env` only (gitignored) — never paste one into code.
+- Terraform state files (`*.tfstate*`) are gitignored — never commit them. They churn on every run and can carry sensitive values.
+
 - Only `openai`, `python-dotenv`, `Pillow`, `truststore` (+ `httpx`, pulled in by `openai`) are needed for the Spark pipeline. `torch`/`torchvision`/`transformers`/`numpy` exist only for the dropped SAM experiment; skip them for pipeline-only work.
 - Windows Git Bash note: use `python`, not `python3` (the Store shim resolves to a different interpreter). Always `python -m pip`.
 
