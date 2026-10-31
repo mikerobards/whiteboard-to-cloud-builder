@@ -6,4 +6,4 @@ __pycache__/
 *.pyc
 .DS_Store
 v2-outputs/
-terraform-broken-test/
+terraform-broken-test/*.tfstate*
