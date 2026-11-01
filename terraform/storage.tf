@@ -1,8 +1,7 @@
 resource "google_storage_bucket" "assets" {
-  name          = "${var.project_id}-assets-bucket"
-  location      = var.region
-  force_destroy = true
-
+  name                        = "${var.project_id}-assets-bucket"
+  location                    = var.region
+  force_destroy               = true
   uniform_bucket_level_access = true
 }
 

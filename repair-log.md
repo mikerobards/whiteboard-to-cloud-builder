@@ -226,3 +226,20 @@ Validate errors:
 ```
 
 Files rewritten: compute.tf
+
+## 2026-11-01 14:14:06 — attempt 1/3 (terraform)
+
+Validate errors:
+
+```text
+╷
+│ Error: Unsupported argument
+│
+│   on storage.tf line 5, in resource "google_storage_bucket" "assets":
+│    5:   description   = "yep yep yep"
+│
+│ An argument named "description" is not expected here.
+╵
+```
+
+Files rewritten: storage.tf
