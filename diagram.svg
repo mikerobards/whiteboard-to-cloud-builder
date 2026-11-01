@@ -1,82 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 990" width="1320" height="990">
-<rect x="0" y="0" width="1320" height="990" fill="#FFFFFF"/>
+<svg viewBox="0 0 1320 990" width="1320" height="990" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="1320" height="990" fill="white"/>
 <defs>
-<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-<path d="M 0 0 L 10 5 L 0 10 z" fill="#5F6368"/>
-</marker>
-<style>
-  text { font-family: sans-serif; }
-</style>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#5F6368"/>
+  </marker>
 </defs>
-<text x="660" y="40" text-anchor="middle" font-size="28" fill="#5F6368" font-family="sans-serif">Whiteboard-to-Cloud - Generated Architecture</text>
+<text x="660" y="38" text-anchor="middle" font-family="sans-serif" font-size="28" fill="#5F6368">Whiteboard-to-Cloud - Generated Architecture</text>
 
-<!-- VPC Container -->
-<rect x="732.6" y="94.05" width="561" height="608.85" rx="16" ry="16" fill="#E8F0FE" stroke="#4285F4" stroke-width="2"/>
-<text x="752.6" y="124.05" font-size="18" font-weight="600" fill="#4285F4">VPC Network</text>
-
-<!-- Edges (behind boxes for clean) -->
-<!-- USERS -> CLOUD LOAD BALANCER -->
-<line x1="302.81" y1="247.5" x2="294.69" y2="331.65" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
-<!-- CLOUD LOAD BALANCER -> CLOUD RUN SERVICE -->
-<line x1="300.3" y1="420.75" x2="315.7" y2="490.05" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
-<!-- CLOUD RUN SERVICE -> Firewall -->
-<line x1="432.41" y1="490.05" x2="918.64" y2="262.35" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
-<!-- Firewall -> Compute VM -->
-<line x1="1000.32" y1="262.35" x2="997.44" y2="301.95" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
-<!-- Compute VM -> Cloud SQL -->
-<line x1="993.3" y1="415.8" x2="993.3" y2="460.35" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
-<!-- CLOUD RUN SERVICE -> CLOUD STORAGE -->
-<line x1="350.7" y1="589.05" x2="429.9" y2="752.4" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
-<!-- Compute VM -> CLOUD STORAGE -->
-<line x1="931.51" y1="415.8" x2="565.96" y2="752.4" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
-
-<!-- Boxes -->
-<!-- USERS external ellipse -->
-<ellipse cx="310.2" cy="170.775" rx="132" ry="76.725" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
-<text x="310.2" y="165.775" text-anchor="middle" font-size="20" font-weight="600" fill="#202124">USERS</text>
-<text x="310.2" y="188.775" text-anchor="middle" font-size="14" fill="#5F6368">(HTTPS)</text>
-
-<!-- CLOUD LOAD BALANCER -->
-<rect x="158.4" y="331.65" width="264" height="89.1" rx="8" ry="8" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
-<text x="290.4" y="381.2" text-anchor="middle" font-size="20" font-weight="600" fill="#202124">CLOUD LOAD BALANCER</text>
-
-<!-- CLOUD RUN SERVICE -->
-<rect x="145.2" y="490.05" width="363" height="99" rx="8" ry="8" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
-<text x="326.7" y="534.55" text-anchor="middle" font-size="20" font-weight="600" fill="#202124">CLOUD RUN SERVICE</text>
-<text x="326.7" y="556.55" text-anchor="middle" font-size="14" fill="#5F6368">Serverless FE</text>
+<!-- VPC Network container -->
+<rect x="736.56" y="91.08" width="562.56" height="613.8" rx="16" ry="16" fill="#E8F0FE" stroke="#4285F4" stroke-width="2"/>
+<text x="752.56" y="115.08" font-family="sans-serif" font-size="20" font-weight="600" fill="#202124">VPC Network</text>
 
 <!-- CLOUD STORAGE -->
-<rect x="283.8" y="752.4" width="376.2" height="173.25" rx="8" ry="8" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
-<text x="471.9" y="815.4" text-anchor="middle" font-size="20" font-weight="600" fill="#202124">CLOUD STORAGE</text>
-<text x="471.9" y="837.4" text-anchor="middle" font-size="14" fill="#5F6368">Bucket</text>
-<text x="471.9" y="855.4" text-anchor="middle" font-size="14" fill="#5F6368">Files &amp; Static Assets</text>
+<rect x="279.84" y="780.12" width="382.8" height="148.5" rx="12" ry="12" fill="white" stroke="#202124" stroke-width="2"/>
+<text x="471.24" y="839.37" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#202124">
+  <tspan x="471.24" dy="-18">CLOUD STORAGE</tspan>
+  <tspan x="471.24" dy="22" font-size="14" fill="#5F6368">Bucket</tspan>
+  <tspan x="471.24" dy="16" font-size="14" fill="#5F6368">Files &amp; Static Assets</tspan>
+</text>
+
+<!-- CLOUD RUN SERVICE -->
+<rect x="142.56" y="493.02" width="369.6" height="118.8" rx="12" ry="12" fill="white" stroke="#202124" stroke-width="2"/>
+<text x="327.36" y="547.42" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#202124">
+  <tspan x="327.36" dy="-8">CLOUD RUN SERVICE</tspan>
+  <tspan x="327.36" dy="22" font-size="14" fill="#5F6368">Serverless FE</tspan>
+</text>
+
+<!-- CLOUD LOAD BALANCER -->
+<rect x="155.76" y="331.65" width="264" height="99" rx="12" ry="12" fill="white" stroke="#202124" stroke-width="2"/>
+<text x="287.76" y="381.15" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="20" fill="#202124">CLOUD LOAD BALANCER</text>
+
+<!-- USERS external ellipse -->
+<ellipse cx="294.36" cy="170.28" rx="125.4" ry="79.2" fill="white" stroke="#202124" stroke-width="2"/>
+<text x="294.36" y="165.28" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#202124">
+  <tspan x="294.36" dy="-4">USERS</tspan>
+  <tspan x="294.36" dy="22" font-size="14" fill="#5F6368">(HTTPS)</tspan>
+</text>
 
 <!-- Firewall Rule -->
-<rect x="778.8" y="183.15" width="448.8" height="79.2" rx="8" ry="8" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
-<text x="1003.2" y="213.15" text-anchor="middle" font-size="18" font-weight="600" fill="#202124">Firewall Rule</text>
-<text x="1003.2" y="235.15" text-anchor="middle" font-size="18" font-weight="600" fill="#202124">Allow TCP: 8080</text>
+<rect x="781.44" y="186.12" width="451.44" height="89.1" rx="12" ry="12" fill="white" stroke="#202124" stroke-width="2"/>
+<text x="1007.16" y="225.67" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#202124">
+  <tspan x="1007.16" dy="-10">Firewall Rule</tspan>
+  <tspan x="1007.16" dy="22">Allow TCP: 8080</tspan>
+</text>
 
 <!-- Compute Engine VM -->
-<rect x="805.2" y="301.95" width="376.2" height="113.85" rx="8" ry="8" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
-<text x="993.3" y="348.95" text-anchor="middle" font-size="20" font-weight="600" fill="#202124">Compute Engine VM</text>
-<text x="993.3" y="370.95" text-anchor="middle" font-size="14" fill="#5F6368">Backend in Private Subnet</text>
+<rect x="807.84" y="308.88" width="369.6" height="124.74" rx="12" ry="12" fill="white" stroke="#202124" stroke-width="2"/>
+<text x="992.64" y="366.25" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#202124">
+  <tspan x="992.64" dy="-10">Compute Engine VM</tspan>
+  <tspan x="992.64" dy="22" font-size="14" fill="#5F6368">Backend in Private Subnet</tspan>
+</text>
 
 <!-- Cloud SQL -->
-<rect x="805.2" y="460.35" width="376.2" height="138.6" rx="8" ry="8" fill="#FFFFFF" stroke="#202124" stroke-width="2"/>
-<text x="993.3" y="519.65" text-anchor="middle" font-size="20" font-weight="600" fill="#202124">Cloud SQL</text>
-<text x="993.3" y="541.65" text-anchor="middle" font-size="14" fill="#5F6368">Postgres</text>
+<rect x="807.84" y="473.22" width="369.6" height="138.6" rx="12" ry="12" fill="white" stroke="#202124" stroke-width="2"/>
+<text x="992.64" y="537.52" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#202124">
+  <tspan x="992.64" dy="-8">Cloud SQL</tspan>
+  <tspan x="992.64" dy="22" font-size="14" fill="#5F6368">Postgres</tspan>
+</text>
+
+<!-- Arrows -->
+<line x1="291.88" y1="249.46" x2="289.31" y2="331.65" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="299.20" y1="430.65" x2="313.63" y2="493.02" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="355.66" y1="611.82" x2="435.86" y2="780.12" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="452.85" y1="493.02" x2="913.07" y2="275.22" stroke="#4285F4" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="925.33" y1="433.62" x2="551.38" y2="780.12" stroke="#34A853" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="1002.56" y1="275.22" x2="999.08" y2="308.88" stroke="#5F6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="992.64" y1="433.62" x2="992.64" y2="473.22" stroke="#4285F4" stroke-width="2" marker-end="url(#arrow)"/>
 
 <!-- Mechanism labels with white halo -->
-<g>
-<rect x="605" y="362" width="142" height="18" fill="white" opacity="0.9"/>
-<text x="675.52" y="376.2" text-anchor="middle" font-size="12" font-weight="600" fill="#34A853">Direct VPC Egress</text>
-</g>
-<g>
-<rect x="908" y="429" width="170" height="18" fill="white" opacity="0.9"/>
-<text x="993.3" y="443.075" text-anchor="middle" font-size="12" font-weight="600" fill="#34A853">Private Service Access</text>
-</g>
-<g>
-<rect x="663" y="575" width="172" height="18" fill="white" opacity="0.9"/>
-<text x="748.73" y="589.1" text-anchor="middle" font-size="12" font-weight="600" fill="#34A853">Private Google Access</text>
-</g>
+<text x="682.96" y="384.12" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#202124" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">Direct VPC Egress</text>
+<text x="738.36" y="606.87" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#202124" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">Private Google Access</text>
+<text x="1065" y="453.42" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#202124" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">Private Service Access</text>
 </svg>

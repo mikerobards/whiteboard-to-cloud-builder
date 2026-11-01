@@ -1,30 +1,3 @@
-resource "google_cloud_run_v2_service" "serverless_fe" {
-  name     = "serverless-fe"
-  location = var.region
-  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
-
-  deletion_protection = false
-
-  template {
-    service_account = google_service_account.cloud_run_sa.email
-    containers {
-      image = "us-docker.pkg.dev/cloudrun/container/hello"
-      ports {
-        container_port = 8080
-      }
-    }
-    vpc_access {
-      network_interfaces {
-        network    = google_compute_network.vpc_network.id
-        subnetwork = google_compute_subnetwork.private_subnet.id
-      }
-      egress = "ALL_TRAFFIC"
-    }
-  }
-
-  depends_on = [google_service_networking_connection.private_service_access]
-}
-
 resource "google_compute_instance" "backend_vm" {
   name         = "backend-vm"
   machine_type = "e2-medium"
@@ -44,8 +17,33 @@ resource "google_compute_instance" "backend_vm" {
 
   service_account {
     email  = google_service_account.backend_vm_sa.email
-    scopes = ["cloud-platform"]
+    scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
 
-  depends_on = [google_service_networking_connection.private_service_access]
+  depends_on = [google_service_networking_connection.private_vpc_connection]
+}
+
+resource "google_cloud_run_v2_service" "frontend" {
+  name     = "serverless-fe"
+  location = var.region
+  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+
+  deletion_protection = false
+
+  template {
+    service_account = google_service_account.cloud_run_sa.email
+    containers {
+      image = "us-docker.pkg.dev/cloudrun/container/hello"
+      ports {
+        container_port = 8080
+      }
+    }
+    vpc_access {
+      network_interfaces {
+        network    = google_compute_network.vpc.id
+        subnetwork = google_compute_subnetwork.private_subnet.id
+      }
+      egress = "ALL_TRAFFIC"
+    }
+  }
 }

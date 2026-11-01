@@ -1,10 +1,10 @@
 [
-  {"label": "USERS", "detail": "(HTTPS)", "type": "external", "parent": null, "box": [135, 95, 335, 250]},
-  {"label": "CLOUD LOAD BALANCER", "detail": null, "type": "component", "parent": null, "box": [120, 335, 320, 425]},
-  {"label": "CLOUD RUN SERVICE", "detail": "Serverless FE", "type": "component", "parent": null, "box": [110, 495, 385, 595]},
-  {"label": "CLOUD STORAGE", "detail": "Bucket\nFiles & Static Assets", "type": "component", "parent": null, "box": [215, 760, 500, 935]},
-  {"label": "VPC Network", "detail": null, "type": "container", "parent": null, "box": [555, 95, 980, 710]},
-  {"label": "Firewall Rule: Allow TCP: 8080", "detail": null, "type": "component", "parent": "VPC Network", "box": [590, 185, 930, 265]},
-  {"label": "Compute Engine VM", "detail": "Backend in Private Subnet", "type": "component", "parent": "VPC Network", "box": [610, 305, 895, 420]},
-  {"label": "Cloud SQL", "detail": "Postgres", "type": "component", "parent": "VPC Network", "box": [610, 465, 895, 605]}
+{"label":"USERS","detail":"(HTTPS)","type":"external","parent":null,"box":[128,92,318,252]},
+{"label":"CLOUD LOAD BALANCER","detail":null,"type":"component","parent":null,"box":[118,335,318,435]},
+{"label":"CLOUD RUN SERVICE","detail":"Serverless FE","type":"component","parent":null,"box":[108,498,388,618]},
+{"label":"CLOUD STORAGE","detail":"Bucket\nFiles & Static Assets","type":"component","parent":null,"box":[212,788,502,938]},
+{"label":"VPC Network","detail":null,"type":"container","parent":null,"box":[558,92,984,712]},
+{"label":"Firewall Rule: Allow TCP: 8080","detail":null,"type":"component","parent":"VPC Network","box":[592,188,934,278]},
+{"label":"Compute Engine VM","detail":"Backend in Private Subnet","type":"component","parent":"VPC Network","box":[612,312,892,438]},
+{"label":"Cloud SQL","detail":"Postgres","type":"component","parent":"VPC Network","box":[612,478,892,618]}
 ]

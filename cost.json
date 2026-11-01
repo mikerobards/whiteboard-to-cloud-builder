@@ -1,0 +1,163 @@
+{
+  "currency": "USD",
+  "assumptions": [
+    "Region us-central1 for pricing",
+    "730 hours/month always-on for provisioned resources",
+    "backend_vm: e2-medium (2 vCPU, 4GB) on-demand + 10GB standard boot disk",
+    "frontend Cloud Run: light demo workload ~100k requests/mo, 0.5 vCPU, 512MiB, 100ms avg duration, 1 concurrent",
+    "postgres: db-f1-micro shared-core + 10GB SSD storage + minimal backup/network egress",
+    "Load balancer forwarding rule, backend service, URL map, NEGs are marked as no-charge per input attributes for this estimate",
+    "Storage bucket assets assumed empty / minimal for this rough estimate per input no-charge flag"
+  ],
+  "resources": [
+    {
+      "type": "google_compute_instance",
+      "name": "backend_vm",
+      "monthly_usd": 24.67,
+      "confidence": "medium",
+      "note": "e2-medium @ ~$24.27/mo + 10GB std boot disk ~$0.40 us-central1"
+    },
+    {
+      "type": "google_cloud_run_v2_service",
+      "name": "frontend",
+      "monthly_usd": 1.5,
+      "confidence": "low",
+      "note": "light demo ~100k req, 0.5 vCPU/512MiB/100ms ~$1.50/mo"
+    },
+    {
+      "type": "google_sql_database_instance",
+      "name": "postgres",
+      "monthly_usd": 9.5,
+      "confidence": "medium",
+      "note": "db-f1-micro @ ~$7.67 + 10GB storage ~$1.70 + backup ~$0.13"
+    },
+    {
+      "type": "google_sql_database",
+      "name": "default_db",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge - logical database"
+    },
+    {
+      "type": "google_service_account",
+      "name": "backend_vm_sa",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_service_account",
+      "name": "cloud_run_sa",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_project_iam_member",
+      "name": "cloud_run_invoker",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_cloud_run_v2_service_iam_member",
+      "name": "allow_lb_to_cloud_run",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_compute_region_network_endpoint_group",
+      "name": "cloud_run_neg",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_compute_backend_service",
+      "name": "frontend_backend",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge per input attributes"
+    },
+    {
+      "type": "google_compute_url_map",
+      "name": "url_map",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_compute_target_http_proxy",
+      "name": "http_proxy",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_compute_global_forwarding_rule",
+      "name": "http_forwarding_rule",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge per input attributes"
+    },
+    {
+      "type": "google_compute_network",
+      "name": "vpc",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_compute_subnetwork",
+      "name": "private_subnet",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_compute_global_address",
+      "name": "private_ip_alloc",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_service_networking_connection",
+      "name": "private_vpc_connection",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_compute_firewall",
+      "name": "allow_8080",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_storage_bucket",
+      "name": "assets",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge per input attributes - minimal demo usage"
+    },
+    {
+      "type": "google_storage_bucket_iam_member",
+      "name": "cloud_run_viewer",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    },
+    {
+      "type": "google_storage_bucket_iam_member",
+      "name": "vm_viewer",
+      "monthly_usd": 0.0,
+      "confidence": "high",
+      "note": "no charge"
+    }
+  ],
+  "total_monthly_usd": 35.67,
+  "disclaimer": "Rough estimate from training-data pricing, not a quote. Verify with the GCP Pricing Calculator."
+}
