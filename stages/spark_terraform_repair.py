@@ -52,7 +52,11 @@ ANSI = re.compile(r"\x1b\[[0-9;]*m")  # terraform SGR color codes
 
 
 def clean(text):
-    return ANSI.sub("", text)
+    # Strip ANSI codes AND trailing whitespace per line: terraform's
+    # box-drawing output ("│ " on blank lines) would otherwise trip MD009
+    # (no-trailing-spaces) in repair-log.md on every run.
+    return "\n".join(line.rstrip()
+                     for line in ANSI.sub("", text).split("\n"))
 
 
 def run_terraform(args):
@@ -163,12 +167,18 @@ Current file contents:
     print("rewrote: " + ", ".join(sorted(files)), flush=True)
 
     stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # Markdownlint-clean: blank lines around headings/fences, single
+    # trailing newline, clean() strips trailing spaces (MD009). Raw
+    # validate lines run long, so MD013 is off.
+    new_log = not os.path.exists("repair-log.md")
     with open("repair-log.md", "a") as log:
-        log.write(f"## {stamp} — attempt {attempt}/{MAX_ATTEMPTS}"
-                  f" ({TFDIR})\n")
-        log.write("Validate errors:\n```\n" + clean(errors.rstrip())
-                  + "\n```\n")
-        log.write("Files rewritten: " + ", ".join(sorted(files)) + "\n\n")
+        if new_log:
+            log.write("# Repair Log\n\n<!-- markdownlint-disable MD013 -->\n")
+        log.write(f"\n## {stamp} — attempt {attempt}/{MAX_ATTEMPTS}"
+                  f" ({TFDIR})\n\n")
+        log.write("Validate errors:\n\n```text\n" + clean(errors.rstrip())
+                  + "\n```\n\n")
+        log.write("Files rewritten: " + ", ".join(sorted(files)) + "\n")
 
     line = f"usage: {resp.usage}"
     print(line, flush=True)

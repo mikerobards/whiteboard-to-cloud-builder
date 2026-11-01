@@ -123,6 +123,27 @@ def test_repairs_named_file_and_leaves_others_untouched(
     assert "prompt_tokens=10" in out and "completion_tokens=5" in out
 
 
+def test_repair_log_is_markdownlint_clean(monkeypatch, tmp_path):
+    # Terraform box-drawing output carries trailing spaces ("│ ") that
+    # trip markdownlint MD009 — the log must strip them (and ANSI codes).
+    error = ("\x1b[31m╷\x1b[0m\n"
+             "│ Error: Unsupported argument\n"
+             "│ \n"
+             '│   on a.tf line 6, in resource "x" "y":\n'
+             "╵\n")
+    fix = json.dumps({"a.tf": 'resource "x" "a" {}\n'})
+    code, _, _ = _run_repair(
+        monkeypatch, tmp_path, {"a.tf": "x\n"},
+        [(fix, 1, 1)],
+        [INIT_OK, (1, error, ""), INIT_OK, VAL_OK])
+    assert code == 0
+    log = (tmp_path / "repair-log.md").read_text()
+    assert "│ Error: Unsupported argument" in log
+    assert "\x1b" not in log
+    assert not re.search(r"[ \t]+$", log, re.M), "trailing whitespace in log"
+    assert log.endswith("\n") and not log.endswith("\n\n")
+
+
 def test_errors_naming_no_file_send_all_files(monkeypatch, tmp_path):
     tf = {"a.tf": 'resource "x" "a" {}\n', "b.tf": 'output "y" {}\n'}
     both = {"a.tf": tf["a.tf"], "b.tf": 'output "y" { value = 2 }\n'}
