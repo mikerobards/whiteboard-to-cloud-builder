@@ -1,6 +1,6 @@
 # Whiteboard-to-Cloud Builder
 
-Snap a photo of a hand-drawn architecture sketch, get GCP Terraform plus a clean architecture diagram. Built for the Meta Global AI Developer Hackathon (Push the Frontier track), powered entirely by Meta's Muse Spark.
+Snap a photo of a hand-drawn architecture sketch, get GCP Terraform plus a clean architecture diagram. Built for the Meta Global AI Developer Hackathon (Build For Your World track), powered entirely by Meta's Muse Spark.
 
 ## How it works
 
