@@ -4,13 +4,20 @@ Snap a photo of a hand-drawn architecture sketch, get GCP Terraform plus a clean
 
 ## How it works
 
-One model does the whole job, in five stages:
+One model does the whole job, in six stages:
 
 1. **Boxes** — Spark detects every labeled shape in the photo: components, containers, external actors, and connection mechanisms, with normalized coordinates → `boxes.json`
+
 2. **Graph** — Spark reads the arrows between shapes, recording mechanisms (Direct VPC Egress, Private Google Access) as edge attributes → `edges.json`
+
 3. **Terraform** — Spark generates a complete multi-file root module from the boxes and graph → `terraform/*.tf`
-4. **Diagram** — Spark renders a clean SVG architecture diagram from the same inputs → `diagram.svg`
+
+4. **Repair** — the loop runs `terraform validate`, sends any errors back to Spark, and rewrites the files until it passes (3 attempts max, no human edits) → `repair-log.md`
+
 5. **Cost** — Spark estimates the monthly GCP cost of the generated module from its resource types and sizes → `cost.json` (an estimate from training-data pricing, not a quote)
+
+6. **Diagram** — Spark renders a clean SVG architecture diagram from the same inputs → `diagram.svg`
+
 
 No training, no hand-written parsers. A SAM segmentation spike was tested and dropped early; the pipeline is Spark-only end to end.
 
@@ -19,7 +26,7 @@ No training, no hand-written parsers. A SAM segmentation spike was tested and dr
 - Python 3.10+
 - `python -m venv .venv`, then activate it (Windows Git Bash note: use `python`, not `python3`, which resolves to a different interpreter)
 - `python -m pip install -r requirements.txt` (only `openai`, `python-dotenv`, `Pillow`, and `truststore` are needed for the pipeline; `torch`/`torchvision`/`transformers` are only for the dropped SAM experiment)
-- `cp .env.example .env` and add your Meta API key (`META_API_KEY=...`)
+- `cp .env.example .env` and add your Meta API key (`META_API_KEY=your-key-here`)
 
 ## Usage
 
