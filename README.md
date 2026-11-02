@@ -101,7 +101,7 @@ Runs boxes, graph, terraform, plus a repair drill against the v2 and v3 golden c
 
 ## Cost
 
-Roughly $0.04 per full run at current Meta API pricing. The entire demo costs less than a nickel.
+Roughly $0.06 per full run at current Meta API pricing. The entire demo costs about a nickel!
 
 ## Repo layout
 
