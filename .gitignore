@@ -7,3 +7,5 @@ __pycache__/
 .DS_Store
 v2-outputs/
 terraform-broken-test/*.tfstate*
+*.tfstate*
+tfplan
